@@ -1,0 +1,163 @@
+-- DELETE, DROP and TRUNCATE
+-- DROP - DDL - DB, Table, Column
+CREATE DATABASE vit;
+USE vit;
+CREATE TABLE student(
+student_id INT,
+student_name VARCHAR(40),
+student_dept VARCHAR(40),
+student_age INT 
+);
+
+SHOW DATABASES;
+DROP DATABASE vit; -- It's complete dropping, it never comes back
+SHOW TABLEs FROM vit_ap;
+USE vit_ap;
+DESC cse;
+ALTER TABLE cse ADD(
+s_country VARCHAR(20)
+);
+ALTER TABLE cse DROP COLUMN s_country;
+
+CREATE TABLE Worker (
+	WORKER_ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	FIRST_NAME CHAR(25),
+	LAST_NAME CHAR(25),
+	SALARY INT(15),
+	JOINING_DATE DATETIME,
+	DEPARTMENT CHAR(25)
+);
+USE vit_ap;
+INSERT INTO Worker 
+	(WORKER_ID, FIRST_NAME, LAST_NAME, SALARY, JOINING_DATE, DEPARTMENT) VALUES
+		(001, 'Monika', 'Arora', 100000, '14-02-20 09.00.00', 'HR'),
+		(002, 'Niharika', 'Verma', 80000, '14-06-11 09.00.00', 'Admin'),
+		(003, 'Vishal', 'Singhal', 300000, '14-02-20 09.00.00', 'HR'),
+		(004, 'Amitabh', 'Singh', 500000, '14-02-20 09.00.00', 'Admin'),
+		(005, 'Vivek', 'Bhati', 500000, '14-06-11 09.00.00', 'Admin'),
+		(006, 'Vipul', 'Diwan', 200000, '14-06-11 09.00.00', 'Account'),
+		(007, 'Satish', 'Kumar', 75000, '14-01-20 09.00.00', 'Account'),
+		(008, 'Geetika', 'Chauhan', 90000, '14-04-11 09.00.00', 'Admin');
+
+SELECT *
+FROM worker;
+
+SET SQL_SAFE_UPDATES = 0;
+
+DELETE FROM worker;
+
+-- delete itself - particular 
+DELETE FROM worker
+WHERE salary <= 200000;
+
+DELETE FROM worker
+WHERE department = 'Account';
+
+TRUNCATE TABLE worker; -- deletes all records from the table
+
+DESC worker;
+-- Even though DELETE and TRUNCATE do the same operation
+-- By using DELETE we can rollback the transaction
+-- By using TRUNCATE we can't rollback the transaction
+-- By using DROP also we cannot rollback the transaction
+
+CREATE DATABASE vit;
+USE vit;
+CREATE TABLE cse(
+id INT,
+name VARCHAR(25)
+);
+START TRANSACTION;
+INSERT INTO cse VALUES(1001, 'Jayanth');
+SAVEPOINT a11;
+INSERT INTO cse VALUES(1002, 'Praveen');
+SAVEPOINT a12;
+DELETE FROM cse WHERE id = 1002;
+ 
+SELECT * FROM cse;
+
+ROLLBACK TO a12;
+
+SELECT * FROM cse;
+
+CREATE TABLE Worker (
+	WORKER_ID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	FIRST_NAME CHAR(25),
+	LAST_NAME CHAR(25),
+	SALARY INT(15),
+	JOINING_DATE DATETIME,
+	DEPARTMENT CHAR(25)
+);
+USE vit_ap;
+INSERT INTO Worker 
+	(WORKER_ID, FIRST_NAME, LAST_NAME, SALARY, JOINING_DATE, DEPARTMENT) VALUES
+		(001, 'Monika', 'Arora', 100000, '14-02-20 09.00.00', 'HR'),
+		(002, 'Niharika', 'Verma', 80000, '14-06-11 09.00.00', 'Admin'),
+		(003, 'Vishal', 'Singhal', 300000, '14-02-20 09.00.00', 'HR'),
+		(004, 'Amitabh', 'Singh', 500000, '14-02-20 09.00.00', 'Admin'),
+		(005, 'Vivek', 'Bhati', 500000, '14-06-11 09.00.00', 'Admin'),
+		(006, 'Vipul', 'Diwan', 200000, '14-06-11 09.00.00', 'Account'),
+		(007, 'Satish', 'Kumar', 75000, '14-01-20 09.00.00', 'Account'),
+		(008, 'Geetika', 'Chauhan', 90000, '14-04-11 09.00.00', 'Admin');
+
+SELECT first_name AS employee_name
+FROM worker;
+
+DESC worker;
+
+-- Operator logical and compare
+
+SELECT * FROM worker;
+
+SELECT first_name, department
+FROM worker
+WHERE salary > 300000;
+
+SELECT first_name, department
+FROM worker
+WHERE salary > 200000 AND deparment = 'HR';
+
+SELECT first_name, department
+FROM worker
+WHERE salary > 100000 AND salary < 300000 AND (department = 'Admin' OR department = 'Accounts');
+
+SELECT *
+FROM worker
+WHERE worker_id NOT IN (001,005,007);
+
+USE vit;
+SELECT first_name
+FROM worker
+WHERE salary >= ALL(SELECT salary FROM worker) AND (department = 'Admin' OR department = 'HR') AND worker_id % 2 = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
