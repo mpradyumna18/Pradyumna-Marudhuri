@@ -1,0 +1,108 @@
+CREATE DATABASE tuesday;
+USE tuesday;
+DROP TABLE products;
+CREATE TABLE category(
+c_id INT PRIMARY KEY,
+c_name VARCHAR(25),
+c_details VARCHAR(25)
+);
+
+INSERT INTO category VALUES(101,'Electronics', 'abcdef');
+INSERT INTO category VALUES(102, 'Furnitures', 'akjfberjgbr');
+
+SELECT * FROM category;
+DROP TABLE products;
+CREATE TABLE products(
+p_id INT PRIMARY KEY,
+p_name VARCHAR(25),
+p_details VARCHAR(35),
+c_id INT,
+FOREIGN KEY (c_id) REFERENCES category(c_id) ON DELETE CASCADE -- similarly ON UPDATE CASCADE as well
+);
+DELETE FROM category WHERE c_id = 102;
+DELETE FROM category WHERE c_id = 101;
+DESC products;
+
+INSERT INTO products VALUES(501, 'Samsung s23', '12GB RAM', 101);
+INSERT INTO products VALUES(502, 'Samsung s21', '8GB RAM', 101);
+-- Foreign key accepts duplicates
+-- If a primary key is foreign key in another table, then it cannot be deleted without being deleted in it's child table
+INSERT INTO products VALUES(501, 'IPhone 16 pro max', '8GB RAM', 101);
+
+SELECT * FROM products;
+
+-- NOT NULL : Ensures that a column cannot have a NULL value
+-- UNIQUE : Ensures that all values in a column are different
+-- PRIMARY KEY : A combination of a NOT NULL and UNIQUE. Uniquely identifies each row in a table
+-- FOREIGN KEY : Uniquely identifies a row/record in another table
+-- CHECK : Ensures that all values in a column satisfies a specific condition
+
+ALTER TABLE Persons
+ADD UNIQUE (ID);
+-- To create a UNIQUE constraint on the "ID" column when the table is already created
+
+ALTER TABLE persons
+ADD CONSTRAINT UC_Person UNIQUE (ID, LastName);
+-- To name a UNIQUE constraint and to define a UNIQUE constraint on multiple columns
+
+ALTER TABLE persons
+DROP INDEX UC_Person;
+-- To drop a UNIQUE constraint
+
+-- PRIMARY KEY constraint
+CREATE TABLE persons(
+id INT,
+LastName VARCHAR(255) NOT NULL,
+FirstName VARCHAR(255),
+age INT,
+PRIMARY KEY (id)
+);
+
+ALTER TABLE persons
+ADD PRIMARY KEY (LastName);
+-- To create a PRIMARY KEY constraint on the "LastName" column when the table is already created
+
+ALTER TABLE persons
+ADD CONSTRAINT PK_person PRIMARY KEY (id, LastName);
+-- To allow naming of a PRIMARY KEY constraint, and for defining a PRIMARY KEY constraint on multiple columns
+
+ALTER TABLE persons
+DROP PRIMARY KEY;
+-- To drop a PRIMARY KEY constraint
+
+ALTER TABLE orders
+ADD FOREIGN KEY (person_id) REFERENCES persons(person_id);
+-- To create a FOREIGN KEY constraint on the "person_id" column when the "orders" table is already created'
+
+ALTER TABLE orders
+ADD CONSTRAINT FK_PersonOrder
+FOREIGN KEY (person_id) REFERENCES persons(person_id);
+-- To allow naming a FOREIGN KEY constraint, and for defining a FOREIGN KEY constraint on multiple columns
+
+ALTER TABLE orders
+DROP FOREIGN KEY FK_PersonOrder;
+-- To drop a FOREIGN KEY constraint
+
+ALTER TABLE persons
+ADD CHECK (age >= 18 && age <= 120);
+
+CREATE TABLE animals(
+id INT NOT NULL,
+category VARCHAR(255) DEFAULT 'Mammal'
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
