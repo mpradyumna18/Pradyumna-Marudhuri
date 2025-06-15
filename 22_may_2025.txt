@@ -1,0 +1,66 @@
+USE vit_ap;
+
+SELECT * FROM worker;
+
+SELECT department, COUNT(department)
+FROM worker
+GROUP BY department;
+
+-- Which department has maximum no.of employees
+SELECT department, COUNT(*) AS employee_count
+FROM worker
+GROUP BY department
+ORDER BY employee_count DESC
+LIMIT 1;
+
+-- which department gets maximum salary
+SELECT department, SUM(salary) AS sume
+FROM worker
+GROUP BY department
+ORDER BY sume DESC
+LIMIT 1; -- This prints only first row of the result
+
+SELECT department, COUNT(department)
+FROM worker
+GROUP BY department
+HAVING COUNT(department) > 3;
+
+SELECT first_name, department
+FROM worker
+WHERE salary = (SELECT MAX(salary) FROM worker);
+
+CREATE TABLE student1(
+s_id INT,
+s_name VARCHAR(25)
+);
+
+INSERT INTO student1 VALUES(101,'Pradyumna'), (102,'Praveen'),(103, 'Karthik'),(105,'Mahesh'),(106,'Arun');
+
+CREATE TABLE address(
+s_id INT,
+s_address VARCHAR(25)
+);
+
+INSERT INTO address VALUES(101, 'Coimbatore'), (104, 'Chennai'), (105,'Pune');
+
+SELECT * 
+FROM student1 CROSS JOIN address;
+
+SELECT * 
+FROM student1 INNER JOIN address
+WHERE student1.s_id = address.s_id;
+
+SELECT *
+FROM student1 LEFT OUTER JOIN address ON(student1.s_id = address.s_id);
+
+SELECT *
+FROM student1 LEFT OUTER JOIN address ON(student1.s_id = address.s_id);
+
+SELECT *
+FROM student1 FULL JOIN address;
+
+
+
+
+
+
