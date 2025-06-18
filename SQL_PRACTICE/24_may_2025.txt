@@ -1,0 +1,97 @@
+package connection;
+import java.sql.*;
+
+public class dbConnection {
+
+	public static void main(String[] args) {
+		// JDBC
+		try{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/vit_ap","root","pradyumna@");
+			System.out.println(con);
+			Statement stmt=con.createStatement();
+			ResultSet rs=stmt.executeQuery("select * from student");
+			while(rs.next())
+				System.out.println(rs.getInt(1)+" "+rs.getString(2));
+			con.close();
+		}
+		catch(Exception e){
+			System.out.println("Sorry for inconveinience, please check the credentials");
+			e.printStackTrace();
+		}
+		
+
+	}
+
+}
+
+
+
+
+
+
+
+
+package crud_operations;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class db_connection {
+
+	public static void main(String[] args) {
+		db_connection db_obj = new db_connection();
+		System.out.println(db_obj.get_connection());
+		
+
+	}
+	public Connection get_connection(){
+		Connection connection = null;
+		try{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/vit_ap","root","pradyumna@");
+			
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
+		return connection;
+	}
+
+}
+
+
+
+
+package crud_operations;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class crudOperation {
+
+	public static void main(String[] args) {
+		crudOperation obj = new crudOperation();
+  
+	obj.create_data(103, "pradyumna");
+	obj.create_data(104, "mahesh");
+    
+}
+
+public void create_data(int sl_no,String name){
+	db_connection db_obj = new db_connection();
+	Connection connection = db_obj.get_connection();
+	PreparedStatement ps=null;
+	try {
+		String query="insert into student values (?,?)";
+		ps=connection.prepareStatement(query);
+		ps.setInt(1, sl_no);
+		ps.setString(2, name);
+		System.out.println(ps);
+		ps.executeUpdate();
+	} catch (Exception e) {
+		System.out.println(e);
+	}
+}
+
+}
