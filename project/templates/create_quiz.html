@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Create Quiz</h2>
+<form method="POST">
+    <p><label>Title:</label><br><input type="text" name="title" required></p>
+    <p><label>Topic:</label><br><input type="text" name="topic" required></p>
+
+    {% for i in range(1, 4) %}
+        <hr>
+        <h3>Question {{ i }}</h3>
+        <p><label>Question:</label><br><input type="text" name="q{{ i }}" required></p>
+        <p><label>Option 1:</label><br><input type="text" name="q{{ i }}_opt1" required></p>
+        <p><label>Option 2:</label><br><input type="text" name="q{{ i }}_opt2" required></p>
+        <p><label>Option 3:</label><br><input type="text" name="q{{ i }}_opt3" required></p>
+        <p><label>Option 4:</label><br><input type="text" name="q{{ i }}_opt4" required></p>
+        <p><label>Correct Answer (exact text):</label><br><input type="text" name="q{{ i }}_ans" required></p>
+    {% endfor %}
+
+    <button type="submit" class="button">Create Quiz</button>
+</form>
+{% endblock %}

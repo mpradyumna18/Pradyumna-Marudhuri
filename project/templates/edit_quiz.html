@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Edit Quiz</h2>
+<form method="POST">
+    <label>Title:</label><br>
+    <input type="text" name="title" value="{{ quiz.title }}" required><br><br>
+
+    <label>Topic:</label><br>
+    <input type="text" name="topic" value="{{ quiz.topic }}" required><br><br>
+
+    {% for q in quiz.questions %}
+        <hr>
+        <h4>Question {{ loop.index }}:</h4>
+        <label>Text:</label><br>
+        <input type="text" name="q{{ loop.index }}" value="{{ q.question }}" required><br>
+        <label>Option 1:</label>
+        <input type="text" name="q{{ loop.index }}_opt1" value="{{ q.options[0] }}" required><br>
+        <label>Option 2:</label>
+        <input type="text" name="q{{ loop.index }}_opt2" value="{{ q.options[1] }}" required><br>
+        <label>Option 3:</label>
+        <input type="text" name="q{{ loop.index }}_opt3" value="{{ q.options[2] }}" required><br>
+        <label>Option 4:</label>
+        <input type="text" name="q{{ loop.index }}_opt4" value="{{ q.options[3] }}" required><br>
+        <label>Correct Answer (exact text):</label>
+        <input type="text" name="q{{ loop.index }}_ans" value="{{ q.answer }}" required><br><br>
+    {% endfor %}
+
+    <button type="submit">Update Quiz</button>
+</form>
+{% endblock %}
